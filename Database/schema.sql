@@ -23,7 +23,7 @@ CREATE TABLE purchase (
   user_id INTEGER NULL DEFAULT NULL,
   product_id INTEGER NULL DEFAULT NULL,
   quantity INTEGER NULL DEFAULT NULL,
-  price NUMERIC NULL DEFAULT NULL,
+  price CHAR(25) NULL DEFAULT NULL,
   isBundle BOOLEAN NULL DEFAULT NULL,
   date DATE NULL DEFAULT NULL,
   PRIMARY KEY (id)
@@ -38,10 +38,10 @@ DROP TABLE IF EXISTS product_purchase;
     
 CREATE TABLE product_purchase (
   id INTEGER NOT NULL AUTO_INCREMENT,
-  product_id INTEGER NULL DEFAULT NULL,
-  individual_purchase_count INTEGER NULL DEFAULT NULL,
-  bundle_purchase_count INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (id)
+  product_id INTEGER NOT NULL UNIQUE,
+  individual_purchase_count INTEGER NULL DEFAULT 0,
+  bundle_purchase_count INTEGER NULL DEFAULT 0,
+  PRIMARY KEY (id, product_id)
 );
 
 -- ---

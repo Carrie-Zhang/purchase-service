@@ -3,9 +3,9 @@ const mysql = require('mysql');
 const db = require('../Database/index');
 
   var purchases = [];
-  for (var id = 0; id < 10; id++) {
-    purchases.push([faker.random.number(100), 
-                    faker.random.number(100), 
+  for (var id = 0; id < 100; id++) {
+    purchases.push([faker.random.number({min:1, max:100}), 
+                    faker.random.number({min:1, max:100}), 
                     faker.random.number({min:5, max:10}), 
                     faker.commerce.price(), 
                     faker.random.number({min:0, max:1}), 
