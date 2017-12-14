@@ -10,21 +10,23 @@
 -- 
 -- ---
 
--- DROP DATABASE IF EXISTS bundlin;
--- --
--- CREATE DATABASE bundlin;
+DROP DATABASE IF EXISTS bundlin;
+--
+CREATE DATABASE bundlin;
 
-DROP TABLE IF EXISTS `purchase`;
+USE bundlin;
+
+DROP TABLE IF EXISTS purchase;
     
-CREATE TABLE `purchase` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `user_id` INTEGER NOT NULL,
-  `product_id` INTEGER NOT NULL,
-  `quantity` INTEGER NOT NULL,
-  `price` NUMERIC NOT NULL,
-  `isBundle` BOOLEAN DEFAULT NULL,
-  `date` DATE NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE purchase (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  user_id INTEGER NULL DEFAULT NULL,
+  product_id INTEGER NULL DEFAULT NULL,
+  quantity INTEGER NULL DEFAULT NULL,
+  price NUMERIC NULL DEFAULT NULL,
+  isBundle BOOLEAN NULL DEFAULT NULL,
+  date DATE NULL DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
 -- ---
@@ -32,14 +34,14 @@ CREATE TABLE `purchase` (
 -- 
 -- ---
 
-DROP TABLE IF EXISTS `product_purchase`;
+DROP TABLE IF EXISTS product_purchase;
     
-CREATE TABLE `product_purchase` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT,
-  `product_id` INTEGER NOT NULL,
-  `individual_purchase_count` INTEGER NULL,
-  `bundle_purchase_count` INTEGER NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE product_purchase (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  product_id INTEGER NULL DEFAULT NULL,
+  individual_purchase_count INTEGER NULL DEFAULT NULL,
+  bundle_purchase_count INTEGER NULL DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
 -- ---
