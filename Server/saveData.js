@@ -1,22 +1,9 @@
 const faker = require('faker');
 const mysql = require('mysql');
-
-var con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'bundlin',
-  multipleStatements: true
-});
-
-con.connect(function(err) {
-  if (err) {
-    console.log(err);
-  }
-  console.log("Connected!");
+const db = require('../Database/index');
 
   var purchases = [];
-  for (var id = 0; id < 100; id++) {
+  for (var id = 0; id < 10; id++) {
     purchases.push([faker.random.number(100), 
                     faker.random.number(100), 
                     faker.random.number({min:5, max:10}), 
@@ -28,12 +15,17 @@ con.connect(function(err) {
 
   var sql = 'INSERT INTO purchase (user_id, product_id, quantity, price, isBundle, date) VALUES ?';
 
-  con.query(sql, [purchases], function (err, result) {
+  db.query(sql, [purchases], function (err, result) {
     if (err) console.log(err);
     console.log("Number of records inserted: " + result.affectedRows);
-    con.end();
+    db.end();
   });
-});
+// con.connect(function(err) {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log("Connected!");
+
 
 
 //const { db } = require('../Database/index');

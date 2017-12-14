@@ -1,14 +1,15 @@
-const pgp = require('pg-promise')();
+const mysql = require('mysql');
 
-//  use this command to start postgress in terminal:
-//  pg_ctl -D /usr/local/var/postgres start
+var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'bundlin'
+});
 
-const configObj = {
-  host: 'localhost',
-  database: 'bundlin',
-  user: 'bundlin',
-};
+con.connect(function(err) {
+  if(err) console.log(err);
+  console.log("Database connected!");
+});
 
-const db = pgp(configObj);
-
-module.exports.db = db;
+module.exports = con;
