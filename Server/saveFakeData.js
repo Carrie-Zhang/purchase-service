@@ -3,23 +3,28 @@ const mysql = require('mysql');
 const db = require('../Database/index');
 
   var purchases = [];
-  for (var id = 0; id < 100; id++) {
-    purchases.push([faker.random.number({min:1, max:100}), 
-                    faker.random.number({min:1, max:100}), 
-                    faker.random.number({min:5, max:10}), 
-                    faker.commerce.price(), 
-                    faker.random.number({min:0, max:1}), 
-                    faker.date.between('2017-10-01', '2017-12-31')
-                    ])
+
+  for (var id = 0; id < 50; id++) {
+    purchases.push({
+      user_id: faker.random.number({min:1, max:50}),
+      product_id: faker.random.number({min:1, max:50}),
+      quantity: faker.random.number({min:5, max:10}),
+      price: faker.commerce.price(),
+      date: faker.date.between('2017-10-01', '2017-12-31'),
+      isBundle: faker.random.boolean()
+    })
   }
 
-  var sql = 'INSERT INTO purchase (user_id, product_id, quantity, price, isBundle, date) VALUES ?';
+  db.Purchase.bulkCreate(purchases)
+  .then(() => process.exit());
 
-  db.query(sql, [purchases], function (err, result) {
-    if (err) console.log(err);
-    console.log("Number of records inserted: " + result.affectedRows);
-    db.end();
-  });
+  // var sql = 'INSERT INTO purchase (user_id, product_id, quantity, price, isBundle, date) VALUES ?';
+
+  // db.query(sql, [purchases], function (err, result) {
+  //   if (err) console.log(err);
+  //   console.log("Number of records inserted: " + result.affectedRows);
+  //   db.end();
+  // });
 // con.connect(function(err) {
 //   if (err) {
 //     console.log(err);

@@ -16,9 +16,9 @@ CREATE DATABASE bundlin;
 
 USE bundlin;
 
-DROP TABLE IF EXISTS purchase;
+DROP TABLE IF EXISTS purchases;
     
-CREATE TABLE purchase (
+CREATE TABLE purchases (
   id INTEGER NOT NULL AUTO_INCREMENT,
   user_id INTEGER NULL DEFAULT NULL,
   product_id INTEGER NULL DEFAULT NULL,
@@ -34,14 +34,15 @@ CREATE TABLE purchase (
 -- 
 -- ---
 
-DROP TABLE IF EXISTS product_purchase;
+DROP TABLE IF EXISTS product_purchases;
     
-CREATE TABLE product_purchase (
+CREATE TABLE weekly_product_purchases (
   id INTEGER NOT NULL AUTO_INCREMENT,
-  product_id INTEGER NOT NULL UNIQUE,
+  product_id INTEGER NOT NULL,
   individual_purchase_count INTEGER NULL DEFAULT 0,
   bundle_purchase_count INTEGER NULL DEFAULT 0,
-  PRIMARY KEY (id, product_id)
+  week_start_date DATE NULL DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
 -- ---
