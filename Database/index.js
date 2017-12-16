@@ -1,18 +1,3 @@
-// const mysql = require('mysql');
-
-// var con = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'bundlin'
-// });
-
-// con.connect(function(err) {
-//   if(err) console.log(err);
-//   console.log("Database connected!");
-// });
-
-// module.exports = con;
 
 const Sequelize = require('sequelize');
 var sequelize = new Sequelize('bundlin', 'root', '', {
@@ -45,9 +30,7 @@ const Weekly_product_purchase = sequelize.define('weekly_product_purchase', {
 });
 
 // Purchase.sync({ force: true });
-Weekly_product_purchase.sync({ force: true });
-
-// const findIndividualPurchase = () => {sequelize. }
+// Weekly_product_purchase.sync({ force: true });
 
 exports.Purchase = Purchase;
 exports.Weekly_product_purchase = Weekly_product_purchase;

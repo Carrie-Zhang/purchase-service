@@ -13,11 +13,6 @@ app.post('/purchases', (req, res) => {
   console.log(Array.isArray(req.body));
   db.Purchase.bulkCreate(req.body)
   .then(() => res.end());
-  // db.query('INSERT INTO purchase SET ?', req.body, (err, result) => {
-  //   if(err) console.log(err);
-  //   console.log('Insert success!');
-  //   res.end();
-  // });
 });
 
 app.listen(app.get('port'), () => {
