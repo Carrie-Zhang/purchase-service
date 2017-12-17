@@ -1,21 +1,10 @@
 const mysql = require('mysql');
 const Promise = require("bluebird");
-const db = require('../Database/index');
+const db = require('../database/index');
 
 // insert individual purchases
 var sql1 = 'insert into weekly_product_purchases (product_id, individual_purchase_count, week_start_date) select p1.product_id as product_id, p1.quantity, p1.date as date from purchases as p1 where p1.date between ? and ? and p1.isBundle=0';
 
-// var sql2 = 'insert into product_purchase (product_id, bundle_purchase_count) select p1.product_id as product_id, p1.quantity as quantity from purchase as p1 where p1.isBundle = 1 on duplicate key update bundle_purchase_count=bundle_purchase_count+p1.quantity;';
-
-// db.query(sql1, function (err, result) {
-//   if (err) console.log(err);
-//   console.log('Number of records inserted or updated: ' + result.affectedRows);
-//   db.query(sql2, function (err, result) {
-//     if (err) console.log(err);
-//     console.log('Number of records inserted or updated: ' + result.affectedRows);
-//     db.end();
-//   });
-// });
 
 // update bundle purchases for the same period time
 var sql2 = 'update weekly_product_purchases w left join purchases p on w.product_id = p.product_id set w.bundle_purchase_count=p.quantity where p.isBundle=1 and p.date between ? and ?;';
@@ -44,3 +33,14 @@ var loop = function() {
 // when all the queries done exit the process
 loop().then(() => process.exit());
 
+// var sql2 = 'insert into product_purchase (product_id, bundle_purchase_count) select p1.product_id as product_id, p1.quantity as quantity from purchase as p1 where p1.isBundle = 1 on duplicate key update bundle_purchase_count=bundle_purchase_count+p1.quantity;';
+
+// db.query(sql1, function (err, result) {
+//   if (err) console.log(err);
+//   console.log('Number of records inserted or updated: ' + result.affectedRows);
+//   db.query(sql2, function (err, result) {
+//     if (err) console.log(err);
+//     console.log('Number of records inserted or updated: ' + result.affectedRows);
+//     db.end();
+//   });
+// });

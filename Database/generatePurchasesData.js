@@ -1,30 +1,60 @@
 const faker = require('faker');
 const mysql = require('mysql');
-const db = require('../Database/index');
+//const db = require('./index');
+
+var con = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'bundlin',
+  multipleStatements: true
+});
+
+con.connect(function(err) {
+  if (err) {
+    console.log(err);
+  }
+  console.log("Connected!");
 
   var purchases = [];
-
-  for (var id = 0; id < 50; id++) {
-    purchases.push({
-      user_id: faker.random.number({min:1, max:50}),
-      product_id: faker.random.number({min:1, max:50}),
-      quantity: faker.random.number({min:5, max:10}),
-      price: faker.commerce.price(),
-      date: faker.date.between('2017-10-01', '2017-12-31'),
-      isBundle: faker.random.boolean()
-    })
+  for (var id = 0; id < 100; id++) {
+    purchases.push([faker.random.number({min:1, max:100}), 
+                    faker.random.number({min:1, max:100}), 
+                    faker.random.number({min:5, max:10}), 
+                    faker.commerce.price(), 
+                    faker.random.boolean(), 
+                    faker.date.between('2017-10-01', '2017-12-31')
+                    ])
   }
 
-  db.Purchase.bulkCreate(purchases)
-  .then(() => process.exit());
+  var sql = 'INSERT INTO purchases (user_id, product_id, quantity, price, isBundle, date) VALUES ?';
 
-  // var sql = 'INSERT INTO purchase (user_id, product_id, quantity, price, isBundle, date) VALUES ?';
+  con.query(sql, [purchases], function (err, result) {
+    if (err) console.log(err);
+    console.log("Number of records inserted: " + result.affectedRows);
+    con.end();
+  });
+});
 
-  // db.query(sql, [purchases], function (err, result) {
-  //   if (err) console.log(err);
-  //   console.log("Number of records inserted: " + result.affectedRows);
-  //   db.end();
-  // });
+
+  
+  // var purchases = [];
+
+  // for (var id = 0; id < 50; id++) {
+  //   purchases.push({
+  //     user_id: faker.random.number({min:1, max:50}),
+  //     product_id: faker.random.number({min:1, max:50}),
+  //     quantity: faker.random.number({min:5, max:10}),
+  //     price: faker.commerce.price(),
+  //     date: faker.date.between('2017-10-01', '2017-12-31'),
+  //     isBundle: faker.random.boolean()
+  //   })
+  // }
+
+  // db.Purchase.bulkCreate(purchases)
+  // .then(() => process.exit());
+
+
 // con.connect(function(err) {
 //   if (err) {
 //     console.log(err);
