@@ -38,11 +38,3 @@ describe('App', () => {
     });
   });
 });
-
-
-// user_id: faker.random.number({min:1, max:50}),
-//       product_id: faker.random.number({min:1, max:50}),
-//       quantity: faker.random.number({min:5, max:10}),
-//       price: faker.commerce.price(),
-//       date: faker.date.between('2017-10-01', '2017-12-31'),
-//       isBundle: faker.random.boolean()

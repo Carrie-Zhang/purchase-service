@@ -3,8 +3,7 @@ const Promise = require("bluebird");
 const db = require('../database/index');
 
 // insert individual purchases
-var sql1 = 'insert into weekly_product_purchases (product_id, individual_purchase_count, week_start_date) select p1.product_id as product_id, p1.quantity, p1.date as date from purchases as p1 where p1.date between ? and ? and p1.isBundle=0';
-
+var sql1 = 'insert into weekly_product_purchases (product_id, individual_purchase_count, week_start_date) select p1.product_id as product_id, p1.quantity as quantity, p1.date as date from purchases as p1 where p1.date between ? and ? and p1.isBundle=0;';
 
 // update bundle purchases for the same period time
 var sql2 = 'update weekly_product_purchases w left join purchases p on w.product_id = p.product_id set w.bundle_purchase_count=p.quantity where p.isBundle=1 and p.date between ? and ?;';

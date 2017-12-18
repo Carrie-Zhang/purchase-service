@@ -15,6 +15,12 @@ app.post('/purchases', (req, res) => {
   .then(() => res.status(200).end());
 });
 
+// app.get('/inventory', (req, res) => {
+//   db.updateWithInventory()
+//   .then((result) => console.log(result))
+//   .then(() => res.end());
+// })
+
 app.listen(app.get('port'), () => {
   console.log('Listening on port ' + app.get('port'));
 });

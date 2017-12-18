@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Carrie-Zhang/purchase-service#readme",
   "dependencies": {
+    "aws-sdk": "^2.171.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",

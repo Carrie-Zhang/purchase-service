@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const mysql = require('mysql');
 const Promise = require("bluebird");
+const fs = require('fs');
+const path = require('path');
 
 var sequelize = new Sequelize('bundlin', 'root', '', {
   host: 'localhost',
@@ -31,11 +33,11 @@ const Weekly_product_purchase = sequelize.define('weekly_product_purchase', {
   week_start_date: Sequelize.DATEONLY
 });
 
-Purchase.sync({ force: true });
-Weekly_product_purchase.sync({ force: true });
+// Purchase.sync({ force: true });
+// Weekly_product_purchase.sync({ force: true });
 
 const getWeeklyProductPurchases = (weekStart, weekEnd) => {
-  var sql1 = 'insert into weekly_product_purchases (product_id, individual_purchase_count, week_start_date) select p1.product_id as product_id, p1.quantity, p1.date as date from purchases as p1 where p1.date between ? and ? and p1.isBundle=0';
+  var sql1 = 'insert into weekly_product_purchases (product_id, individual_purchase_count, week_start_date) select p1.product_id as product_id, p1.quantity as quantity, p1.date as date from purchases as p1 where p1.date between ? and ? and p1.isBundle=0';
   var sql2 = 'update weekly_product_purchases w left join purchases p on w.product_id = p.product_id set w.bundle_purchase_count=p.quantity where p.isBundle=1 and p.date between ? and ?;';
   var sql3 = 'update weekly_product_purchases set week_start_date = DATE_ADD(week_start_date, INTERVAL(1-DAYOFWEEK(week_start_date)) DAY) where week_start_date between ? and ?;';
 
@@ -50,14 +52,23 @@ const getWeeklyProductPurchases = (weekStart, weekEnd) => {
   .catch((err) => console.log(err));
 }
 
-// const updateWithInventory = () => {
-//   var sql = 'select product_id, quantity, date from purchases where date > ? + '00:00:00' and date < '2017-12-12 23:59:59';';
+const updateWithInventory = () => {
+  var output = [];
+  var sql = 'select product_id, SUM(quantity) as total_quantity from purchases where date=CURDATE() group by product_id;';
 
-// }
+  sequelize.query(sql)
+  .then((data) => {return output.push(data[0]);})
+  .then((output) => {
+    fs.writeFile(path.join(__dirname + '/../Utils/dailyInventoryUpdate.json'), JSON.stringify(output), function() {
+      console.log('inventory update data generated successfully!');
+    })
+  })
+  .catch((err) => console.log(err)); 
+}
 
 exports.Purchase = Purchase;
 exports.Weekly_product_purchase = Weekly_product_purchase;
 exports.sequelize = sequelize;
 exports.getWeeklyProductPurchases = getWeeklyProductPurchases;
-// exports.updateWithInventory = updateWithInventory;
+exports.updateWithInventory = updateWithInventory;
 
