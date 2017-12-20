@@ -1,0 +1,22 @@
+config:
+  target: 'http://localhost:3500'
+  phases:
+    - duration: 10
+      arrivalRate: 200
+    # - duration: 600
+    #   arrivalRate: 50
+  processor: './my-functions.js'
+
+  # defaults:
+    # headers:
+    #   x-my-service-auth: '987401838271002188298567'
+scenarios:
+  - name: 'Post a purchase'
+    flow:
+    # - get:
+    #     url: "/purchases"
+      - function: "generateRandomData"
+      - post:
+          url: "/purchases"
+          json: 
+            purchases: "{{ purchases }}"

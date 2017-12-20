@@ -10,9 +10,32 @@ app.use(bodyParser.json());
 app.set('port', 3500);
 
 app.post('/purchases', (req, res) => {
-  // console.log(Array.isArray(req.body));
+
+  if (typeof req.body.purchases === 'string') {
+    db.Purchase.bulkCreate(JSON.parse(req.body.purchases.toString()))
+    .then((response) => {
+      // console.log(response);
+      res.status(201).end()
+    })
+    .catch((err) => console.log(err));
+  }
+
   db.Purchase.bulkCreate(req.body)
-  .then(() => res.status(200).end());
+  .then((response) => {
+    //console.log(response);
+    res.status(201).end()
+  })
+  .catch((err) => console.log(err));
+});
+
+app.get('/purchases', (req, res) => {
+  db.Purchase.findAll({
+    attributes: ['product_id', 'quantity', 'price', 'isBundle', 'date']
+  })
+  .then((result) => {
+    res.json(result);
+  })
+  .catch((err) => console.log(err));
 });
 
 // app.get('/inventory', (req, res) => {

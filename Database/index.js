@@ -52,18 +52,25 @@ const getWeeklyProductPurchases = (weekStart, weekEnd) => {
   .catch((err) => console.log(err));
 }
 
-const updateWithInventory = () => {
+const updateWithInventory = (callback) => {
   var output = [];
   var sql = 'select product_id, SUM(quantity) as total_quantity from purchases where date=CURDATE() group by product_id;';
 
-  sequelize.query(sql)
-  .then((data) => {return output.push(data[0]);})
-  .then((output) => {
-    fs.writeFile(path.join(__dirname + '/../Utils/dailyInventoryUpdate.json'), JSON.stringify(output), function() {
-      console.log('inventory update data generated successfully!');
-    })
+  return sequelize.query(sql)
+  .then((data) => { 
+    console.log('---', data[0]);
+    output = output.concat(data[0]); 
+    callback(output);
+    return data;
   })
+  // .then((output) => {
+  //   fs.writeFile(path.join(__dirname + '/../Utils/dailyInventoryUpdate.json'), JSON.stringify(output), function() {
+  //     console.log('inventory update data generated successfully!');
+  //   })
+  // })
   .catch((err) => console.log(err)); 
+
+  // return output;
 }
 
 exports.Purchase = Purchase;
