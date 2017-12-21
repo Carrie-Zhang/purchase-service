@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            var SERVER_URL = "http://localhost:3500/test";
+            $.get(SERVER_URL, function (record) {
+
+                if (record !== null) {
+                    var date = record.map(function (rec) {
+                        return rec.week_start_date;
+                    });
+                    var individual_value = record.map(function (rec) {
+                        return rec.individual_purchase_count;
+                    });
+                    // var bundle_value = record.map(function (rec) {
+                    //     return rec.bundle_purchase_count;
+                    // });
+
+                    var ctx = document.getElementById("wordpress");
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: date,
+                            datasets: [{
+                                label: 'Sample Data',
+                                data: individual_value
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<canvas id="wordpress"></canvas>
+</body>
+</html>
