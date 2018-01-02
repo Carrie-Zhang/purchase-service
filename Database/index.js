@@ -56,7 +56,7 @@ const getWeeklyProductPurchases = (weekStart, weekEnd) => {
 
 const updateWithInventory = (callback) => {
   var output = [];
-  var sql = 'select product_id, SUM(quantity) as total_quantity from purchases where date=CURDATE() group by product_id;';
+  var sql = 'select product_id, SUM(quantity) as total_quantity from purchases where date=\'2017-12-24\' group by product_id;';
 
   return sequelize.query(sql)
   .then((data) => { 
