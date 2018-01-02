@@ -17,8 +17,8 @@ con.connect(function(err) {
   console.log("Connected!");
 
   var purchases = [];
-  for (var id = 0; id < 100; id++) {
-    purchases.push([faker.random.number({min:1, max:100}), 
+  for (var id = 0; id < 1000000; id++) {
+    purchases.push([faker.random.number({min:1, max:10000}), 
                     faker.random.number({min:1, max:100}), 
                     faker.random.number({min:5, max:10}), 
                     faker.commerce.price(), 

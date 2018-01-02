@@ -10,11 +10,14 @@
             $.get(SERVER_URL, function (record) {
 
                 if (record !== null) {
+                    var product_id = record.map(function (rec) {
+                        return rec.product_id = 1;
+                    });
                     var date = record.map(function (rec) {
                         return rec.week_start_date;
                     });
                     var individual_value = record.map(function (rec) {
-                        return rec.individual_purchase_count;
+                        return rec.individual_total;
                     });
                     // var bundle_value = record.map(function (rec) {
                     //     return rec.bundle_purchase_count;
@@ -26,7 +29,7 @@
                         data: {
                             labels: date,
                             datasets: [{
-                                label: 'Sample Data',
+                                label: 'Weekly individual purchases count',
                                 data: individual_value
                             }]
                         },

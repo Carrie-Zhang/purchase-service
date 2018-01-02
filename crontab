@@ -1,0 +1,4 @@
+
+59 23 * * * /usr/local/bin/node /Users/carrie/development/github.com/Carrie-Zhang/thesis_project/purchase-service/sqs/sendMessage.js
+
+0 7 * * 0 /usr/local/bin/node /Users/carrie/development/github.com/Carrie-Zhang/thesis_project/purchase-service/server/weeklyProductPurchases.js

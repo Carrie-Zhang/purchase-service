@@ -38,7 +38,9 @@ const Weekly_product_purchase = sequelize.define('weekly_product_purchase', {
 
 const getWeeklyProductPurchases = (weekStart, weekEnd) => {
   var sql1 = 'insert into weekly_product_purchases (product_id, individual_purchase_count, week_start_date) select p1.product_id as product_id, p1.quantity as quantity, p1.date as date from purchases as p1 where p1.date between ? and ? and p1.isBundle=0';
-  var sql2 = 'update weekly_product_purchases w left join purchases p on w.product_id = p.product_id set w.bundle_purchase_count=p.quantity where p.isBundle=1 and p.date between ? and ?;';
+
+  var sql2 = 'update weekly_product_purchases w left join purchases p on w.product_id = p.product_id and w.week_start_date=p.date set w.bundle_purchase_count = p.quantity where p.isBundle = 1 and p.date between ? and ?;';
+
   var sql3 = 'update weekly_product_purchases set week_start_date = DATE_ADD(week_start_date, INTERVAL(1-DAYOFWEEK(week_start_date)) DAY) where week_start_date between ? and ?;';
 
   sequelize.query(sql1, {replacements: [weekStart, weekEnd], type: db.sequelize.QueryTypes.INSERT})

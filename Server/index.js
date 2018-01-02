@@ -13,18 +13,12 @@ app.post('/purchases', (req, res) => {
 
   if (typeof req.body.purchases === 'string') {
     db.Purchase.bulkCreate(JSON.parse(req.body.purchases.toString()))
-    .then((response) => {
-      // console.log(response);
-      res.status(201).end()
-    })
+    .then((response) => res.status(201).end())
     .catch((err) => console.log(err));
   }
 
   db.Purchase.bulkCreate(req.body)
-  .then((response) => {
-    //console.log(response);
-    res.status(201).end()
-  })
+  .then((response) => res.status(201).end())
   .catch((err) => console.log(err));
 });
 
@@ -39,11 +33,12 @@ app.post('/purchases', (req, res) => {
 // });
 
 app.get('/test', (req, res) => {
-  db.Weekly_product_purchase.findAll({
-    attributes: ['week_start_date', 'individual_purchase_count']
-  })
+  var sql = 'select product_id, SUM(individual_purchase_count) as individual_total, SUM(bundle_purchase_count) as bundle_total, week_start_date from weekly_product_purchases group by product_id, week_start_date;';
+
+  // db.Weekly_product_purchase.findAll()
+  db.sequelize.query(sql)
   .then((result) => {
-    res.json(result);
+    res.json(result[0]);
   })
   .catch((err) => console.log(err));
 });

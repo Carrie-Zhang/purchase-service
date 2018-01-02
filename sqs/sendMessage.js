@@ -34,18 +34,3 @@ db.updateWithInventory((data) => {
 
 });
 
-   //  "Title": {
-   //    DataType: "String",
-   //    StringValue: "The Whistler"
-   //  },
-   //  "Author": {
-   //    DataType: "String",
-   //    StringValue: "John Grisham"
-   //  },
-   //  "WeeksOn": {
-   //    DataType: "Number",
-   //    StringValue: "6"
-   // }
- //},
- // MessageBody: "Information about current NY Times fiction bestseller for week of 12/18/2017.",
-
