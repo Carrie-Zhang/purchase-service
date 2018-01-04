@@ -21,7 +21,7 @@ function generateRandomData(purchaseContext, events, done) {
   // const date = faker.date.between('2017-10-01', '2017-12-31');
 
   var purchases = [];
-  //for(var i = 0; i < 10; i++){
+  // for(var i = 0; i < 10; i++){
     purchases.push({
       user_id: faker.random.number({min:1, max:10}),
       product_id: faker.random.number({min:1, max:10}),
@@ -30,7 +30,7 @@ function generateRandomData(purchaseContext, events, done) {
       date: faker.date.between('2017-10-01', '2017-12-31'),
       isBundle: faker.random.boolean()
     })
-  //}
+  // }
 
   // add variables to virtual user's context:
   // userContext.vars.name = name;
@@ -43,7 +43,7 @@ function generateRandomData(purchaseContext, events, done) {
   // purchaseContext.vars.isBundle = isBundle;
   // purchaseContext.vars.date = date;
   // console.log(Array.isArray(purchases));
-  purchaseContext.vars.purchases = purchases;
+  purchaseContext.vars.purchases = JSON.stringify(purchases);
   // console.log('*****', Array.isArray(purchaseContext.vars.purchases));
   // continue with executing the scenario:
   return done();

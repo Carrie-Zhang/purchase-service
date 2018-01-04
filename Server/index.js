@@ -12,14 +12,28 @@ app.set('port', 3500);
 app.post('/purchases', (req, res) => {
 
   if (typeof req.body.purchases === 'string') {
-    db.Purchase.bulkCreate(JSON.parse(req.body.purchases.toString()))
+    return db.sequelize.transaction(function (t) {
+      return db.Purchase.bulkCreate(JSON.parse(req.body.purchases.toString()), {transaction: t})
+      .then((response) => res.status(201).end())
+      .catch((err) => console.log(err));
+    })
+
+    // db.Purchase.bulkCreate(JSON.parse(req.body.purchases.toString()))
+    // .then((response) => res.status(201).end())
+    // .catch((err) => console.log(err));
+  } else {
+
+  return db.sequelize.transaction(function (t) {
+    return db.Purchase.bulkCreate(req.body, {transaction: t})
     .then((response) => res.status(201).end())
     .catch((err) => console.log(err));
+
+  // db.Purchase.bulkCreate(req.body)
+  // .then((response) => res.status(201).end())
+  // .catch((err) => console.log(err));
+  });
   }
 
-  db.Purchase.bulkCreate(req.body)
-  .then((response) => res.status(201).end())
-  .catch((err) => console.log(err));
 });
 
 // app.get('/purchases', (req, res) => {
